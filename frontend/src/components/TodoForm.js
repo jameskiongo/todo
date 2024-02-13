@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { useState } from "react";
 
 export default function TodoForm() {
@@ -12,9 +13,18 @@ export default function TodoForm() {
       body: e.target.value,
     }));
   };
+
+  const postTodo = async () => {
+    try {
+      await axios.post("http://localhost:8000/api/todo/", newTodo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={postTodo}>
         <input
           type="text"
           placeholder="Add Todo"
@@ -22,7 +32,9 @@ export default function TodoForm() {
           onChange={handleChange}
           value={newTodo.body}
         />
-        <button className="btn btn-outline btn-primary ml-2">Add Todo</button>
+        <button type="submit" className="btn btn-outline btn-primary ml-2">
+          Add Todo
+        </button>
       </form>
     </div>
   );
